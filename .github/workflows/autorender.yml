@@ -23,8 +23,17 @@ jobs:
               uses: quarto-dev/quarto-actions/setup@v2
             - run: |
                 quarto --version
+            - name: Rename analysis file
+              run: mv analysis.qmd "${{ github.actor }}.qmd"
             - name: Render
               uses: quarto-dev/quarto-actions/render@v2
               with:
                 to: html
-                path: analysis.qmd
+                path: "${{ github.actor }}.qmd"
+            - name: Save
+              uses: actions/upload-artifact@v6
+              with:
+                name: ${{ github.actor }}
+                path: |
+                  ${{ github.actor }}.html
+                  ${{ github.actor }}_files
