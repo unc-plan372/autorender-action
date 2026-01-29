@@ -7,8 +7,6 @@ jobs:
     autorender:
         runs-on: ubuntu-latest
         steps:
-            - name: Set up environment
-              run: echo "${{ github.repository }} | sed "s_.*/_FILENAME=/"
             - name: Checkout
               uses: actions/checkout@v6
             - name: Set up R
