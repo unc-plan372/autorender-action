@@ -7,6 +7,8 @@ jobs:
     autorender:
         runs-on: ubuntu-latest
         steps:
+            - name: Set up environment
+              run: echo "${{ github.repository }} | sed "s_.*/_FILENAME=/"
             - name: Checkout
               uses: actions/checkout@v6
             - name: Set up R
@@ -23,17 +25,15 @@ jobs:
               uses: quarto-dev/quarto-actions/setup@v2
             - run: |
                 quarto --version
-            - name: Rename analysis file
-              run: mv analysis.qmd "${{ github.actor }}.qmd"
             - name: Render
               uses: quarto-dev/quarto-actions/render@v2
               with:
                 to: html
-                path: "${{ github.actor }}.qmd"
+                path: "analysis.qmd"
             - name: Save
               uses: actions/upload-artifact@v6
               with:
-                name: ${{ github.actor }}
+                name: analysis
                 path: |
-                  ${{ github.actor }}.html
-                  ${{ github.actor }}_files
+                  analysis.html
+                  analysis_files
